@@ -39,6 +39,7 @@ import com.algorithm.TreeNode;
 class Solution {
     private boolean isSubStructureCore(TreeNode A, TreeNode B){
         // A空B空 A不空B空
+        // 不能先判断A == null，因为只要B是空的就是A的子结构，但是如果A是空B不是空则B不是A的子结构
         if (B == null) {
             return true;
         }
@@ -83,8 +84,7 @@ public class Main {
         TreeNode B2 = new TreeNode(6);
         B.left = B1;
         B.right = B2;
-        TreeNode B3  = new TreeNode(8);
-        B1.left = B3;
+        B1.left = new TreeNode(8);
 
         System.out.println(solution.isSubStructure(A,B));
     }

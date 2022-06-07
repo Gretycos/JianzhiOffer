@@ -39,20 +39,16 @@ class Solution {
         if (node1 == null && node2 == null){
             return true;
         }
-        // 一个空一个不空
         if (node1 == null || node2 == null){
             return false;
         }
-        // 两个都不空
-        if (node1.val != node2.val){
-            return false;
-        }
-
-        return isSymmetricCore(node1.left,node2.right) &&
+        // 前序遍历 变种
+        return node1.val == node2.val && isSymmetricCore(node1.left,node2.right) &&
                 isSymmetricCore(node1.right,node2.left);
     }
     public boolean isSymmetric(TreeNode root) {
-        return isSymmetricCore(root,root);
+        if (root == null) return true;
+        return isSymmetricCore(root.left,root.right);
     }
 }
 public class Main {

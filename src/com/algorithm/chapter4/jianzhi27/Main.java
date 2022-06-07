@@ -36,24 +36,20 @@ import com.algorithm.TreeNode;
 
 class Solution {
     private void mirrorTreeCore(TreeNode node){
-        if ((node == null) || (node.left == null && node.right == null)){
+        if (node == null){
             return;
         }
+
+        // 后序遍历 变种
+        mirrorTreeCore(node.right);
+        mirrorTreeCore(node.left);
 
         TreeNode temp = node.left;
         node.left = node.right;
         node.right = temp;
-
-        if (node.left != null) {
-            mirrorTreeCore(node.left);
-        }
-
-        if (node.right != null) {
-            mirrorTreeCore(node.right);
-        }
-
     }
     public TreeNode mirrorTree(TreeNode root) {
+        if (root == null) return null;
         mirrorTreeCore(root);
         return root;
     }
