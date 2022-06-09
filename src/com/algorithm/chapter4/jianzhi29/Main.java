@@ -25,7 +25,7 @@ import java.util.Arrays;
  * */
 
 class Solution {
-    public int[] spiralOrder(int[][] matrix) {
+    public int[] spiralOrder2(int[][] matrix) {
         int m = matrix.length;
         if (m == 0) {
             return new int[]{};
@@ -73,6 +73,49 @@ class Solution {
         }
         return result;
     }
+
+    public int[] spiralOrder(int[][] matrix) {
+        if (matrix.length == 0) {
+            return new int[]{};
+        }
+        int m = matrix.length, n = matrix[0].length;
+        int[] res = new int[m*n];
+        int t = 0;
+        int up = -1, right = n, down = m, left = -1;
+        int i = 0, j = 0;
+        while(t < res.length && i < m && j < n){
+            // 右
+            while(t < res.length && j < right){
+                res[t++] = matrix[i][j++];
+            }
+
+            // 下
+            if (t < res.length && ++i < down && --j < right){
+                while(t < res.length && i < down){
+                    res[t++] = matrix[i++][j];
+                }
+            }
+
+            // 左
+            if (t < res.length && --i < down && --j > left){
+                while(t < res.length && j > left){
+                    res[t++] = matrix[i][j--];
+                }
+            }
+
+            // 上
+            if (t < res.length && --i > up + 1 && ++j > left){
+                while(t < res.length && i > up + 1){
+                    res[t++] = matrix[i--][j];
+                }
+            }
+
+            i++;j++;
+            up++;right--;down--;left++;
+        }
+
+        return res;
+    }
 }
 
 public class Main {
@@ -85,6 +128,19 @@ public class Main {
                 {14,23,22,21,8},
                 {13,12,11,10,9}
         };
-        System.out.println(Arrays.toString(solution.spiralOrder(matrix)));
+        int[][] matrix1 = {
+                {1, 2, 3, 4, 5}
+        };
+        int[][] matrix2 = {
+                {1},
+                {16},
+                {15},
+                {14},
+                {13}
+        };
+        int[][] matrix3 = {
+                {1}
+        };
+        System.out.println(Arrays.toString(solution.spiralOrder(matrix3)));
     }
 }

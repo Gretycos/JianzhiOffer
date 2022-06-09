@@ -45,7 +45,6 @@ class Solution {
         List<List<Integer>> res = new ArrayList<>();
         Queue<TreeNode> queue = new ArrayDeque<>();
 
-
         queue.add(root);
         int thisLevel = 1; // 本层计数器
         int nextLevel = 0; // 下层计数器
@@ -62,8 +61,7 @@ class Solution {
                 queue.add(node.right);
                 nextLevel ++;
             }
-            thisLevel --;
-            if (thisLevel == 0){
+            if (--thisLevel == 0){
                 res.add(layer);
                 layer = new ArrayList<>(); // 重置
                 thisLevel = nextLevel;

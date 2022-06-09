@@ -45,7 +45,7 @@ class Solution {
             }
         }
 
-        return p == popped.length;
+        return stack.isEmpty();
     }
 }
 

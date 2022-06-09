@@ -35,7 +35,7 @@ import java.util.Queue;
 class Solution {
     public int[] levelOrder(TreeNode root) {
         if (root == null){
-            return new int[]{};
+            return new int[0];
         }
         Queue<TreeNode> queue = new ArrayDeque<>();
         ArrayList<Integer> res = new ArrayList<>();
