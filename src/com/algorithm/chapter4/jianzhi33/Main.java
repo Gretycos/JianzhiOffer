@@ -31,53 +31,39 @@ package com.algorithm.chapter4.jianzhi33;
 
 class Solution {
 
-    private boolean verifyPostorderCore(int[] postorder, int start, int end){
+    private boolean verify(int[] postorder, int start, int end){
         if (start >= end){
             return true;
         }
+
         int root = postorder[end];
 
         int i = start;
-        while (i < end){
-            if (postorder[i] > root){
-                break;
-            }
+        while (i < end && postorder[i] < root){
             i++;
         }
 
-        int j = i;
-        while (j < end){
+        for (int j = i; j < end ; j++) {
             if (postorder[j] < root){
                 return false;
             }
-            j++;
         }
 
-        boolean left = true;
-        if (i > start){
-            left = verifyPostorderCore(postorder,start,i-1);
-        }
-
-        boolean right = true;
-        if (i < end){
-            right = verifyPostorderCore(postorder,i,end-1);
-        }
-
-        return left && right;
+        return verify(postorder,start,i-1) && verify(postorder,i,end-1);
     }
 
     public boolean verifyPostorder(int[] postorder) {
         if (postorder.length == 0 || postorder.length == 1){
             return true;
         }
-        return verifyPostorderCore(postorder,0,postorder.length-1);
+        return verify(postorder,0,postorder.length-1);
     }
 }
 
 public class Main {
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] postorder = {1,6,3,2,5};
+        int[] postorder = {1,2,5,10,6,9,4,3};
         System.out.println(solution.verifyPostorder(postorder));
     }
 }

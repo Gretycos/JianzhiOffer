@@ -49,37 +49,40 @@ import java.util.List;
 class Solution {
     private List<List<Integer>> res;
 
-    private void pathSumCore(TreeNode node, int target, List<Integer> path){
+    private int target;
+
+    private List<Integer> path;
+
+    private void pathSumCore(TreeNode node, int sum){
         if (node == null){
             return;
         }
 
+        // 前序遍历
+        // 根
         if (node.left == null && node.right == null){
-            if (node.val == target){
+            if (sum + node.val == target){
                 List<Integer> newPath = new ArrayList<>(path);
                 newPath.add(node.val);
                 res.add(newPath);
-            } else {
-                return;
             }
+            return;
         }
-
         path.add(node.val);
-
-        if (node.left != null){
-            pathSumCore(node.left,target-node.val,path);
-        }
-
-        if (node.right != null){
-            pathSumCore(node.right,target-node.val,path);
-        }
-
-        path.remove(path.size()-1); // 不管通路与否都得移除
+        // 左
+        pathSumCore(node.left,sum + node.val);
+        // 右
+        pathSumCore(node.right,sum + node.val);
+        // 回溯
+        path.remove(path.size()-1);
     }
 
     public List<List<Integer>> pathSum(TreeNode root, int target) {
         res = new ArrayList<>();
-        pathSumCore(root,target,new ArrayList<>());
+        if (root == null) return res;
+        this.target = target;
+        path = new ArrayList<>();
+        pathSumCore(root,0);
         return res;
     }
 }
