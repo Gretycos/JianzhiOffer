@@ -64,16 +64,13 @@ class Solution {
         }
 
         Node p = head;
-        Node next = head.next;
 
         // 在原链表内部复制节点，链接起来
         while (p != null){
-            p.next = new Node(p.val);
-            p.next.next = next;
-            p = next;
-            if (next != null){
-                next = next.next;
-            }
+            Node node = new Node(p.val);
+            node.next = p.next;
+            p.next = node;
+            p = node.next;
         }
 
         p = head;
@@ -84,7 +81,7 @@ class Solution {
         while (p != null){
             newP = p.next;
             newP.random = p.random == null ? null : p.random.next;
-            p = p.next.next;
+            p = newP.next;
         }
 
         p = head;
@@ -92,15 +89,16 @@ class Solution {
 
         // 拆分两个链表
         while(p != null){
-            p.next = newP.next;
-            p = p.next;
-            if (p != null){
-                newP.next = p.next;
-                newP = newP.next;
-            } else {
-                newP.next = null;
+            if (newP.next == null){
+                p.next = null;
+                break;
             }
+            p.next = newP.next;
+            p = newP.next;
+            newP.next = p.next;
+            newP = newP.next;
         }
+
 
         return newHead;
     }
@@ -145,4 +143,23 @@ class Solution {
 
 
 public class Main {
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        Node head = new Node(7);
+        Node node1 = new Node(13);
+        Node node2 = new Node(11);
+        Node node3 = new Node(10);
+        Node node4 = new Node(1);
+
+        head.next = node1;
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+
+        node1.random = head;
+        node2.random = node4;
+        node3.random = node2;
+        node4.random = head;
+        solution.copyRandomList2(head);
+    }
 }
