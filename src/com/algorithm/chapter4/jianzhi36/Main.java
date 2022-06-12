@@ -40,7 +40,9 @@ class Node {
     public int val;
     public Node left;
     public Node right;
+
     public Node(int val) { this.val=val; }
+
     public Node(int val, Node left, Node right){
         this.val = val;
         this.left = left;
@@ -51,15 +53,16 @@ class Solution {
 
     private Node last; // 循环双向链表的最后一个节点
 
-    private void f(Node node){
+    private void convert(Node node){
         if (node == null){
             return;
         }
 
-
+        // 中序遍历
+        // 因为按照从小到大的顺序
         // 左子树
         if (node.left != null){
-            f(node.left);
+            convert(node.left);
         }
 
         // 根节点
@@ -73,26 +76,28 @@ class Solution {
 
         // 右子树
         if (node.right != null){
-            f(node.right);
+            convert(node.right);
         }
     }
 
     public Node treeToDoublyList(Node root) {
-        last = null;
-
-        f(root);
-
-        // 寻找头节点
-        Node head = last;
-        while (head != null && head.left != null){
-            head = head.left;
+        if (root == null){
+            return null;
         }
+        // 寻找头节点
+        Node p = root;
+        while(p.left != null){
+            p = p.left;
+        }
+        Node head = p;
+
+        // 转换
+        last = null;
+        convert(root);
 
         // 链接头节点和尾节点
-        if (head != null){
-            head.left = last;
-            last.right = head;
-        }
+        head.left = last;
+        last.right = head;
 
         return head;
     }

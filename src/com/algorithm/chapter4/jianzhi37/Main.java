@@ -2,10 +2,6 @@ package com.algorithm.chapter4.jianzhi37;
 
 import com.algorithm.TreeNode;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Queue;
-
 /**
  * 请实现两个函数，分别用来序列化和反序列化二叉树。
  *
@@ -35,43 +31,55 @@ import java.util.Queue;
 
 
 class Codec {
-
+    // 反序列化的字符串数组
+    private String[] strings;
+    // 反序列化的字符串数组索引
     private int p;
 
-    private StringBuilder res;
+    // 序列化后的字符串
+    private StringBuilder sb;
+    // 序列化的树根
+    private TreeNode root;
 
     private void serializeCore(TreeNode node){
         if (node == null) {
-            res.append('#');
-            res.append(',');
+            if (node != root){
+                sb.append(",");
+            }
+            sb.append("#");
             return;
         }
-        res.append(node.val);
-        res.append(',');
+        // 前序遍历
+        // 根
+        if (node != root){
+            sb.append(",");
+        }
+        sb.append(node.val);
+        // 左
         serializeCore(node.left);
+        // 右
         serializeCore(node.right);
     }
 
 
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
-        res = new StringBuilder();
+        sb = new StringBuilder();
+        this.root = root;
         serializeCore(root);
-        int lastIdx = res.length() - 1;
-        if (res.charAt(lastIdx) == ','){
-            res.deleteCharAt(lastIdx);
-        }
-        return res.toString();
+        return sb.toString();
     }
 
-    private TreeNode deserializeCore(String[] strings){
+    private TreeNode deserializeCore(){
         TreeNode node = null;
+        // 不是空节点
         if (!strings[p].equals("#")){
             node  = new TreeNode(Integer.parseInt(strings[p]));
             p ++;
-            node.left = deserializeCore(strings);
-            node.right = deserializeCore(strings);
+            node.left = deserializeCore();
+            node.right = deserializeCore();
         }else{
+        // 空节点
             p ++;
         }
         return node;
@@ -79,9 +87,9 @@ class Codec {
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        String[] strings = data.split(",");
+        strings = data.split(",");
         p = 0;
-        return deserializeCore(strings);
+        return deserializeCore();
     }
 }
 
