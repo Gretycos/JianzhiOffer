@@ -23,66 +23,89 @@ import java.util.*;
 
 class Solution {
 
+    // 结果集
     private List<String> res;
 
-    private char[] temp;
+    // 字符串构造
+    private StringBuilder temp;
 
+    // 访问数组
     private boolean[] isVisited;
 
-    private void permutationCore(String s, int p){
-        if (p == s.length()){
-            res.add(new String(temp));
+    // 初始字符串
+    private String s;
+
+    private void permutationCore(){
+        if (temp.length() == s.length()){
+            res.add(temp.toString());
             return;
         }
 
         HashSet<Character> set = new HashSet<>(); // 本层使用过的字母
         for (int i = 0; i < s.length(); i++) {
-            if (set.contains(s.charAt(i))){ // 已经使用过了，就跳过，否则会出现重复
-                continue;
-            }
-            if (!isVisited[i]){
+            // 本层使用的字母不能再使用 && 处于已访问的元素不可访问
+            if (!set.contains(s.charAt(i)) && !isVisited[i]){
+                // 访问
                 isVisited[i] = true;
-                temp[p] = s.charAt(i);
-                permutationCore(s,p+1);
-                isVisited[i] = false;
+                // 添加当前字符
+                temp.append(s.charAt(i));
+                // 本层使用过
                 set.add(s.charAt(i));
+                // 下一层
+                permutationCore();
+                // 解除访问
+                isVisited[i] = false;
+                // 删除当前字符
+                temp.deleteCharAt(temp.length()-1);
             }
         }
+
     }
 
     public String[] permutation(String s) {
         res = new ArrayList<>();
-        temp = new char[s.length()];
+        temp = new StringBuilder();
         isVisited = new boolean[s.length()];
-        permutationCore(s,0);
+        this.s = s;
+        permutationCore();
         return res.toArray(new String[0]);
     }
 
+    private char[] string;
     void swap(int a, int b){
-        char t = temp[a];
-        temp[a] = temp[b];
-        temp[b] = t;
+        char t = string[a];
+        string[a] = string[b];
+        string[b] = t;
     }
+
+    // 从p到n的排列
     void dfs(int p){
-        if (p == temp.length - 1){
-            res.add(new String(temp));
+        if (p == string.length - 1){
+            res.add(new String(string));
             return;
         }
 
+        // 本层使用过的字母，用于去重
         HashSet<Character> set = new HashSet<>();
-        for (int i = p; i < temp.length; i++){
-            if (set.contains(temp[i])){
-                continue;
+        // i指向整个字符串的第一个字符
+        // p指向执行排列操作的字符串的第一个字符
+        for (int i = p; i < string.length; i++){
+            if (!set.contains(string[i])){
+                set.add(string[i]);
+                // 求可能出现在第一个位置的字符，就是把第一个字符和后面所有字符交换
+                swap(i,p);
+                // 固定第一个字符，求后面字符串的排列
+                // 从p+1到n的排列
+                dfs(p+1);
+                swap(i,p);
             }
-            set.add(temp[i]);
-            swap(i,p);
-            dfs(p+1);
-            swap(i,p);
         }
     }
+    // 更高效
     public String[] permutation2(String s) {
         res = new ArrayList<>();
-        temp = s.toCharArray();
+        string = s.toCharArray();
+        // 从0到n的排列
         dfs(0);
         return res.toArray(new String[0]);
     }
@@ -92,6 +115,7 @@ class Solution {
 public class Main {
     public static void main(String[] args) {
         Solution solution = new Solution();
-        String[] res = solution.permutation2("baa");
+        String[] res = solution.permutation("baa");
+        System.out.println(Arrays.toString(res));
     }
 }

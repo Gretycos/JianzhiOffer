@@ -31,13 +31,15 @@ class Solution {
             return;
         }
 
-        // 记录支点
-        int pivot = arr[k-1];
+        // 记录支点，选第一个元素
+        // 第一个元素作为支点会导致，如果是排好序的数组，时间复杂度会变成O(n^2)
+        int pivot = arr[l];
 
+        // 选择其中一个元素作为支点的话，需要和第一个元素先交换
         // 交换支点与起点的元素
-        int t = arr[k-1];
-        arr[k-1] = arr[l];
-        arr[l] = t;
+//        int t = arr[k-1];
+//        arr[k-1] = arr[l];
+//        arr[l] = t;
 
         // 左指针和右指针
         int i = l, j = r;
@@ -61,9 +63,8 @@ class Solution {
         if (k-1 < i){
             quickSort(arr,l,i-1,k);
         }
-
         // 下标k在右半边
-        if (k-1 > i){
+        else if (k-1 > i){
             quickSort(arr,i+1,r,k);
         }
     }
@@ -74,9 +75,7 @@ class Solution {
             return res;
         }
         quickSort(arr,0,arr.length-1,k);
-        for (int p=0;p < k;p++){
-            res[p] = arr[p];
-        }
+        System.arraycopy(arr, 0, res, 0, k);
         return res;
     }
 
@@ -116,7 +115,7 @@ public class Main {
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums = {0,0,1,2,4,2,2,3,1,4};
-        int k = 8;
+        int k = 5;
         System.out.println(Arrays.toString(solution.getLeastNumbers2(nums, k)));
     }
 }
