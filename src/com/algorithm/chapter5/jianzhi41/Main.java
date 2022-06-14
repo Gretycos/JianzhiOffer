@@ -40,7 +40,9 @@ import java.util.Queue;
 
 
 class MedianFinder {
+    // 左半部分，最大堆
     private Queue<Integer> maxHeap;
+    // 右半部分，最小堆
     private Queue<Integer> minHeap;
 
     /** initialize your data structure here. */
@@ -50,41 +52,47 @@ class MedianFinder {
     }
 
     public void addNum(int num) {
-//        if ((maxHeap.size() + minHeap.size()) % 2 == 0){ // 偶位
-//            if (minHeap.size() > 0 && num > minHeap.peek()){
-//                minHeap.add(num);
-//                num = minHeap.remove();
-//            }
-//            maxHeap.add(num);
-//        }else{ // 奇位
-//            if (maxHeap.size() > 0 && num < maxHeap.peek()){
-//                maxHeap.add(num);
-//                num = maxHeap.remove();
-//            }
-//            minHeap.add(num);
-//        }
-        minHeap.add(num);
-        maxHeap.add(minHeap.remove());
-        if (maxHeap.size() - 1 > minHeap.size()){ // 调整平衡，大顶堆比小顶堆最多多一个
-            minHeap.add(maxHeap.remove());
+        // 偶数位元素插入最大堆
+        if (((maxHeap.size() + minHeap.size()) & 1) == 0){
+            // 当前元素>=上界（最小堆顶元素）
+            if (minHeap.size() > 0 && num >= minHeap.peek()){
+                minHeap.add(num);
+                num = minHeap.remove();
+            }
+            maxHeap.add(num);
+        // 奇数位元素插入最小堆
+        }else{
+            // 当前元素小于等于下界（最大堆顶元素）
+            if (maxHeap.size() > 0 && num <= maxHeap.peek()){
+                maxHeap.add(num);
+                num = maxHeap.remove();
+            }
+            minHeap.add(num);
         }
+//        minHeap.add(num);
+//        maxHeap.add(minHeap.remove());
+//        if (maxHeap.size() - 1 > minHeap.size()){ // 调整平衡，大顶堆比小顶堆最多多一个
+//            minHeap.add(maxHeap.remove());
+//        }
     }
 
     public double findMedian() {
-//        int size = maxHeap.size() + minHeap.size();
-//        if (size == 0){
-//            return -1;
-//        }
-//        if (size % 2 == 0)
-//            return (maxHeap.peek() + minHeap.peek()) / 2.0;
-//        else{
-//            return maxHeap.peek();
-//        }
-        if (maxHeap.size() > minHeap.size())
-            return maxHeap.peek();
-        else{
-            return (maxHeap.peek() + minHeap.peek()) / 2.0;
+        int size = maxHeap.size() + minHeap.size();
+        if (size == 0){
+            return -1;
         }
+        if ((size & 1) == 0)
+            return (maxHeap.peek() + minHeap.peek()) / 2.0;
+        else{
+            // 第一个元素插入在最大堆，总数为奇数的时候，最大堆始终比最小堆多一个元素，所以中位数返回最大堆顶
+            // 或者再加一个条件判断哪边的size更大，返回size更大的堆顶
+            return maxHeap.peek();
+        }
+//        if (maxHeap.size() > minHeap.size())
+//            return maxHeap.peek();
+//        else{
+//            return (maxHeap.peek() + minHeap.peek()) / 2.0;
+//        }
     }
 }
 

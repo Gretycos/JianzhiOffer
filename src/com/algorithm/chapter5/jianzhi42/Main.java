@@ -20,31 +20,26 @@ package com.algorithm.chapter5.jianzhi42;
  * */
 
 class Solution {
+    // f[i]是第i个数字结尾的子数组的最大和
+    // 因为负数累加会更小，所以f[i]更新成第i个数字本身
+    public int maxSubArray2(int[] nums) {
+        int f = nums[0], max = f;
+        for (int i = 1; i < nums.length; i++) {
+            if (f <= 0){
+                f = nums[i];
+            }else{
+                f += nums[i];
+            }
+            max = Math.max(max,f);
+        }
+        return max;
+    }
     public int maxSubArray(int[] nums) {
-//        int[] f = new int[nums.length];
-//        int  max = Integer.MIN_VALUE;
-//        for (int i = 0; i < nums.length; i++) {
-//            if (i == 0 || f[i-1] < 0){
-//                f[i] = nums[i];
-//            } else {
-//                f[i] = f[i-1] + nums[i];
-//            }
-//            if (f[i] > max){
-//                max = f[i];
-//            }
-//        }
-//        return max;
         int sum = 0;
         int max = Integer.MIN_VALUE;
         for (int num : nums) {
-            if (sum <= 0) {
-                sum = num;
-            } else {
-                sum += num;
-            }
-            if (sum > max) {
-                max = sum;
-            }
+            sum = Math.max(num,sum+num);
+            max = Math.max(max,sum);
         }
         return max;
     }
