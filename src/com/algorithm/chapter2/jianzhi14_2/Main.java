@@ -44,15 +44,16 @@ class Solution {
 
         int timesOf2 = (n - timesOf3 * 3) / 2;
 
-        long res = 1;
-        while (timesOf3 > 0){
-            res *= 3;
-            res %= (1e9+7);
-            timesOf3--;
+        double res = 1;
+        while (timesOf3-- > 0){
+            res = res * 3 % (1e9+7);
+        }
+        while(timesOf2-- > 0){
+            res = res * 2 % (1e9+7);
         }
 
         // (xy) % p = ((x % p)(y % p)) % p
-        return (int) (res * (Math.pow(2,timesOf2) % (1e9+7)) % (1e9+7));
+        return (int) res;
     }
 }
 public class Main {

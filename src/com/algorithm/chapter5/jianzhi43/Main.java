@@ -25,14 +25,14 @@ package com.algorithm.chapter5.jianzhi43;
  * */
 
 class Solution {
-    private int countDigitOneCore(String  str, int p){
-        int first = str.charAt(p) - '0';
-        int length = str.length() - p;
+    private int countDigitOneCore(String  s, int p){
+        int first = s.charAt(p) - '0';
+        int length = s.length() - p;
 
-        if (length == 1 && first == 0){
-            return 0;
-        }
-        if (length == 1 && first > 0){
+        if (length == 1){
+            if (first == 0){
+                return 0;
+            }
             return 1;
         }
 
@@ -44,11 +44,11 @@ class Solution {
         int firstDigitCount = 0;
         if (first > 1){ // 首位不是1
             // 10000~19999中1在最高位出现的次数=10^(5-1)
-            firstDigitCount = PowerBase10(length - 1);
+            firstDigitCount = (int) Math.pow(10, Math.max(length - 1, 0));
         } else if (first == 1){ // 首位本身就是1
             // 1345
             // 1000~1345中1在最高位出现的次数=345+1
-            firstDigitCount = Integer.parseInt(str.substring(p+1)) + 1;
+            firstDigitCount = Integer.parseInt(s.substring(p+1)) + 1;
         }
 
         // 1出现在其他位上，选择其中一位是1，剩下的的位从0~9中选择
@@ -57,10 +57,10 @@ class Solution {
         // 因为出现了进位，所以低位能在0~9中自由选择
         // 因此可以转换为[0 0000~0 9999] [1 0000~ 1 9999] 两个区间
         // first为0或1：2种，剩下的4位数选择一个位置放1：C(length-1,1)种，剩下3个位置0~9中任意选择：10*10*10=10^(length-2)
-        int otherDigitsCount = first * (length - 1) * PowerBase10(length-2);
+        int otherDigitsCount = first * (length - 1) * (int) Math.pow(10, Math.max(length - 2, 0));
 
         // [1~1345]
-        int recursiveCount = countDigitOneCore(str,p+1);
+        int recursiveCount = countDigitOneCore(s,p+1);
 
         return firstDigitCount + otherDigitsCount + recursiveCount;
     }

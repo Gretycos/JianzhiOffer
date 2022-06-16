@@ -32,9 +32,18 @@ class Solution {
         int beginNum = digits == 1? 0 : (int) Math.pow(10,digits-1);
         // 所在的数字
         int num = beginNum + idx / digits;
-        int p = idx % digits;  // 从左数第几位，下标从0开始
+
+        // 从左数第几位，下标从0开始
+        int p = idx % digits;
+
+        return String.valueOf(num).charAt(p) - '0';
+
+
         // 从一个数找第几位
-        return num / (int) Math.pow(10,digits - 1 - p) % 10;
+        // digits - 1是num中的单位数的最后一位的坐标，p是所求位的坐标
+        // digits - 1 - p是p的右边还剩几位
+        // num / 10 ^ (digits - 1 - p)把所求位放在num的最后一位，再%10即可取出该位
+        // return num / (int) Math.pow(10,digits - 1 - p) % 10;
     }
 
     public int findNthDigit(int n) {
@@ -47,7 +56,7 @@ class Solution {
                 return digitAtIndex(idx,digits);
             }
             idx -= digits * numbers;
-            digits ++ ;
+            digits ++;
         }
     }
 

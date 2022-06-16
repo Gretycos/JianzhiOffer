@@ -25,19 +25,23 @@ class Solution {
     // 动态规划
     public int translateNum2(int num) {
         String s = String.valueOf(num);
-        int pre = 1, cur = 1;
-        for (int i = 2; i < s.length() + 1; i++) {
+        // 定义f(i)是长度为i的数字的翻译方法数
+        // 状态转移：i >= 2, f(i) = f(i-2) + f(i-1) , 10 <= s[i-2]*10+s[i-1] <= 25
+        //              = f(i-1) , else
+        //         i < 2, f(i) = 1
+        // 初始状态，空字符串f0=1，长度为1的字符串f1=1
+        int fn = 1, fn_1 = 1, fn_2 = 1;
+        for (int i = 2; i <= s.length(); i++) {
             int digits = Integer.parseInt(s.substring(i-2,i));
             if (digits >= 10 && digits <= 25){
-                int t = cur;
-                cur = pre + cur;
-                pre = t;
+                fn = fn_2 + fn_1;
             }else{
-                pre = cur;
+                fn = fn_1;
             }
-
+            fn_2 = fn_1;
+            fn_1 = fn;
         }
-        return cur;
+        return fn;
     }
 
     private int count;
