@@ -70,9 +70,7 @@ class Solution {
                 curLength ++;
             } else {
                 // 更新最大值
-                if (curLength > maxLength){
-                    maxLength = curLength;
-                }
+                maxLength = Math.max(maxLength,curLength);
                 // 如果d < curLength 说明c已经存在当前字符串中，因此要重新计算以c结尾的字符串长度
                 // dp[i] = i - prev;
                 curLength = i - prevIndex;
