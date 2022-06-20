@@ -29,6 +29,7 @@ class Solution {
         int first = s.charAt(p) - '0';
         int length = s.length() - p;
 
+        // 保证了length >= 1
         if (length == 1){
             if (first == 0){
                 return 0;
@@ -44,11 +45,11 @@ class Solution {
         int firstDigitCount = 0;
         if (first > 1){ // 首位不是1
             // 10000~19999中1在最高位出现的次数=10^(5-1)
-            firstDigitCount = (int) Math.pow(10, Math.max(length - 1, 0));
+            firstDigitCount = (int) Math.pow(10, length - 1);
         } else if (first == 1){ // 首位本身就是1
             // 1345
             // 1000~1345中1在最高位出现的次数=345+1
-            firstDigitCount = Integer.parseInt(s.substring(p+1)) + 1;
+            firstDigitCount = Integer.parseInt(s.substring(p + 1)) + 1;
         }
 
         // 1出现在其他位上，选择其中一位是1，剩下的的位从0~9中选择
@@ -60,7 +61,7 @@ class Solution {
         int otherDigitsCount = first * (length - 1) * (int) Math.pow(10, Math.max(length - 2, 0));
 
         // [1~1345]
-        int recursiveCount = countDigitOneCore(s,p+1);
+        int recursiveCount = countDigitOneCore(s,p + 1);
 
         return firstDigitCount + otherDigitsCount + recursiveCount;
     }

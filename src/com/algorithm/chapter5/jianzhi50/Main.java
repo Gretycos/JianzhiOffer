@@ -30,7 +30,8 @@ class Solution {
         }
         // 遍历字符串的字母对应的次数，第一个1满足条件
         for (int i = 0; i < s.length(); i++) {
-            if (map[s.charAt(i)-'a'] == 1) return s.charAt(i);
+            if (map[s.charAt(i)-'a'] == 1)
+                return s.charAt(i);
         }
         return ' ';
     }

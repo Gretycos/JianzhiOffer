@@ -27,6 +27,7 @@ class Solution {
     public int nthUglyNumber2(int n) {
         int[] uglyNums = new int[n];
         uglyNums[0] = 1;
+        // 结果集指针
         int p = 1;
         int p2 = 0, p3 = 0, p5 = 0;
 
@@ -35,6 +36,7 @@ class Solution {
             int min = Math.min(Math.min(uglyNums[p2] * 2, uglyNums[p3] * 3), uglyNums[p5] * 5);
             uglyNums[p++] = min;
             // 最小值从哪里来的，指针就自增
+            // 来源有多个，所以是三个并列的if
             if (uglyNums[p2] * 2 == min) p2++;
             if (uglyNums[p3] * 3 == min) p3++;
             if (uglyNums[p5] * 5 == min) p5++;

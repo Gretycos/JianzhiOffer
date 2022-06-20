@@ -40,10 +40,11 @@ import java.util.Queue;
 
 
 class MedianFinder {
-    // 左半部分，最大堆
-    private Queue<Integer> maxHeap;
-    // 右半部分，最小堆
-    private Queue<Integer> minHeap;
+
+    private Queue<Integer> maxHeap,    // 左半部分，最大堆
+                           minHeap;    // 右半部分，最小堆
+
+
 
     /** initialize your data structure here. */
     public MedianFinder() {
@@ -51,7 +52,19 @@ class MedianFinder {
         minHeap = new PriorityQueue<>();
     }
 
-    public void addNum(int num) {
+    public void addNum(int num){
+        // 偶数位元素插入最大堆
+        if (maxHeap.size() == minHeap.size()){
+            minHeap.add(num);
+            maxHeap.add(minHeap.remove());
+        }
+        // 奇数位元素插入最小堆
+        else{
+            maxHeap.add(num);
+            minHeap.add(maxHeap.remove());
+        }
+    }
+    public void addNum2(int num) {
         // 偶数位元素插入最大堆
         if (((maxHeap.size() + minHeap.size()) & 1) == 0){
             // 当前元素>=上界（最小堆顶元素）
@@ -77,6 +90,18 @@ class MedianFinder {
     }
 
     public double findMedian() {
+        if (maxHeap.size() + minHeap.size() == 0){
+            return -1;
+        }
+        if (maxHeap.size() == minHeap.size())
+            return (maxHeap.peek() + minHeap.peek()) / 2.0;
+        else{
+            // 第一个元素插入的堆
+            return maxHeap.peek();
+        }
+    }
+
+    public double findMedian2() {
         int size = maxHeap.size() + minHeap.size();
         if (size == 0){
             return -1;

@@ -24,66 +24,66 @@ import java.util.Arrays;
 class Solution {
 
     private int count;
-    private boolean[] isVisited;
+//    private boolean[] isVisited;
 
-    private void dfs(int[] nums, int p){
-        if (isVisited[p] || p == nums.length - 1){
-            return;
-        }
+//    private void dfs(int[] nums, int p){
+//        if (isVisited[p] || p == nums.length - 1){
+//            return;
+//        }
+//
+//        for (int i = p; i < nums.length-1; i++) {
+//            if (nums[p] > nums[i+1]){
+//                count++;
+//                dfs(nums,i+1);
+//            }
+//            if (i+1 == nums.length -1){
+//                isVisited[p] = true;
+//            }
+//        }
+//    }
+//
+//    // 回溯剪枝 超时
+//    public int reversePairs(int[] nums) {
+//        count = 0;
+//        isVisited = new boolean[nums.length];
+//        int p = 0;
+//
+//        while(p < nums.length-1){
+//            dfs(nums,p);
+//            p++;
+//        }
+//
+//        return count;
+//    }
 
-        for (int i = p; i < nums.length-1; i++) {
-            if (nums[p] > nums[i+1]){
-                count++;
-                dfs(nums,i+1);
-            }
-            if (i+1 == nums.length -1){
-                isVisited[p] = true;
-            }
-        }
-    }
-
-    // 回溯剪枝 超时
-    public int reversePairs(int[] nums) {
-        count = 0;
-        isVisited = new boolean[nums.length];
-        int p = 0;
-
-        while(p < nums.length-1){
-            dfs(nums,p);
-            p++;
-        }
-
-        return count;
-    }
 
 
-
-    private int merge(int[] nums, int[] temp, int start, int mid, int end){
-        int i = mid; // 左边起点
-        int j = end; // 右边起点
+    private void merge(int[] nums, int[] temp, int start, int mid, int end){
+        int l = mid; // 左边起点
+        int r = end; // 右边起点
         int t = end; // 辅助数组索引
-        int count = 0;
 
         // 从后往前填充
+        // 使得目的数组的数字从小到大排列
         // 每个子数组中，后面的数大于前面的数
-        while(i >= start && j >= mid + 1){
+        while(l >= start && r >= mid + 1){
             //  第一个数组的数字大于第二个数组的数字
-            if (nums[i] > nums[j]){
-                temp[t--] = nums[i--];
-                count +=  j-mid; // 逆序对的数目是后半段剩余的个数
+            if (nums[l] > nums[r]){
+                temp[t--] = nums[l--];
+                count +=  r-mid; // 逆序对的数目是后半段剩余的个数
             }else{
-                temp[t--] = nums[j--];
+                temp[t--] = nums[r--];
             }
         }
 
         // 左边剩余的
-        while(i >= start){
-            temp[t--] = nums[i--];
+        while(l >= start){
+            temp[t--] = nums[l--];
         }
 
         // 右边剩余的
-        while(j >= mid + 1){
-            temp[t--] = nums[j--];
+        while(r >= mid + 1){
+            temp[t--] = nums[r--];
         }
 
         // 把合并后的数组复制回原数组
@@ -92,12 +92,10 @@ class Solution {
 //            nums[t] = temp[t];
 //            t--;
 //        }
-
-        return count;
     }
-    private int reversePairsCore(int[] nums, int[] temp, int start, int end) {
+    private void reversePairsCore(int[] nums, int[] temp, int start, int end) {
         if (start >= end){
-            return 0;
+            return ;
         }
 
         int length = (end-start)/2;
@@ -105,24 +103,23 @@ class Solution {
         // 拆左边
         // 交换就不需要再复制了
 //        int left = reversePairsCore(nums,temp,start,mid);
-        int left = reversePairsCore(temp,nums,start,mid);
+        reversePairsCore(temp,nums,start,mid);
 
         // 拆右边
 //        int right = reversePairsCore(nums,temp,mid+1,end);
-        int right = reversePairsCore(temp,nums,mid+1,end);
+        reversePairsCore(temp,nums,mid+1,end);
 
         // 合并
-        int count = merge(nums,temp,start,mid,end);
-
-
-        return left+right+count;
+        merge(nums,temp,start,mid,end);
     }
 
 
     // 归并排序
-    public int reversePairs2(int[] nums) {
+    public int reversePairs(int[] nums) {
+        count = 0;
         int[] temp = Arrays.copyOf(nums,nums.length);
-        return reversePairsCore(nums, temp,0,nums.length-1);
+        reversePairsCore(nums, temp,0,nums.length-1);
+        return count;
     }
 
 }
@@ -131,7 +128,7 @@ class Solution {
 public class Main {
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {1,3,2,3,1};
-        System.out.println(solution.reversePairs2(nums));
+        int[] nums = {8,6,3,5,7,4,2,1};
+        System.out.println(solution.reversePairs(nums));
     }
 }
