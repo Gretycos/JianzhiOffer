@@ -2,10 +2,7 @@ package com.jianzhioffer.chapter4.jianzhi32_3;
 
 import com.TreeNode;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * 请实现一个函数按照之字形顺序打印二叉树，即第一行按照从左到右的顺序打印，
@@ -49,7 +46,7 @@ class Solution {
         int thisLevel = 1; // 本层计数器
         int nextLevel = 0; // 下层计数器
         boolean isOdd = true; // 本层奇偶
-        List<Integer> layer = new ArrayList<>(); // 本层数据
+        List<Integer> layer = new LinkedList<>(); // 本层数据
 
         while(!queue.isEmpty()){
             TreeNode node = queue.remove();

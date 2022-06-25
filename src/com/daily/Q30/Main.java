@@ -45,23 +45,24 @@ class Solution {
         滑动窗口+双HashMap优化
         关键在于只需要遍历0-wordLen-1为起始索引的子串,然后遍历边维护符合条件res
         具体逻辑可以看代码,核心就是动态维护根据cur的数目动态查找合法子串
-        时间复杂度:O(N),空间复杂度:O(N)
+        N 是s的长度，wordLen是单个word的长度，wordsLen是words的长度
+        时间复杂度:O(wordLen * N),空间复杂度:O(wordsLen)
     */
     public List<Integer> findSubstring(String s, String[] words) {
         // 结果集
         List<Integer> res = new ArrayList<>();
+
         // 阴间案例
         if(s == null || s.length() == 0 || words == null || words.length == 0) {
             return res;
         }
 
         int len = s.length(); // s的长度
-        int wordNum = words.length; // 单词总个数
+        int wordsNum = words.length; // 单词总个数
         int wordLen = words[0].length(); // 每个单词长度
-        int totalLen = wordNum * wordLen; // words总长度
 
-        // 长度不符合预期
-        if(totalLen > len) {
+        // words总长度 > s的长度
+        if(wordsNum * wordLen > len) {
             return res;
         }
 
@@ -80,39 +81,42 @@ class Solution {
             // 左右指针以及当前窗口中符合的单词个数
             int left = i, right = i, count = 0;
             // 存储[left,right)内符合条件的单词及其数量
-            Map<String, Integer> hasWords = new HashMap<>();
+            Map<String, Integer> curWords = new HashMap<>();
             // right移动的右边界为len(含)
             while(right + wordLen <= len) {
                 // 当前要考虑的单词部分[right,right+wordLen)
-                String cur = s.substring(right, right + wordLen);
+                String curWord = s.substring(right, right + wordLen);
                 // 选了当前单词就要移动右指针
                 right += wordLen;
-                if(allWords.containsKey(cur)) {
-                    // 1.allWords里有cur,说明是合法的,可以加入
-                    hasWords.put(cur, hasWords.getOrDefault(cur, 0) + 1);
+
+                // 1.allWords里有curWord,说明是合法的,可以加入
+                if(allWords.containsKey(curWord)) {
+                    curWords.put(curWord, curWords.getOrDefault(curWord, 0) + 1);
                     // 有效单词数+1
                     count++;
-                    // 有一种特殊情况是有cur,但其数目超过了上限,需要一直舍弃左边的直至合法
-                    while(hasWords.get(cur) > allWords.get(cur)) {
+                    // 有一种特殊情况是有curWord,但其数目超过了上限,需要一直舍弃左边的直至合法
+                    while(curWords.get(curWord) > allWords.get(curWord)) {
                         // 要移除的单词
-                        String del = s.substring(left, left + wordLen);
+                        String delWord = s.substring(left, left + wordLen);
                         // 更新haswords
-                        hasWords.put(del, hasWords.get(del) - 1);
+                        curWords.put(delWord, curWords.get(delWord) - 1);
                         // 同时移动左指针
                         left += wordLen;
                         // count数目-1
                         count--;
                     }
-                }else {
-                    // 2.allWords里有没cur,说明cur是不合法的,得将left指针移动到新的1right后面
+
+                // 2.allWords里有没curWord,说明curWord是不合法的,得将left指针移动到新的right后面
+                } else {
                     left = right;
-                    // 清空hasWords
-                    hasWords.clear();
+                    // 清空curWords
+                    curWords.clear();
                     // 清空count
                     count = 0;
                 }
+
                 // 每当count更新一次就判断是否符合预期
-                if(count == wordNum) {
+                if(count == wordsNum) {
                     res.add(left);
                 }
             }
