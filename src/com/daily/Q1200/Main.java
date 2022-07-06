@@ -33,6 +33,7 @@ import java.util.List;
  * */
 class Solution {
     public List<List<Integer>> minimumAbsDifference(int[] arr) {
+        // Time: O(nlogn)
         Arrays.sort(arr);
         List<List<Integer>> res = new ArrayList<>();
         int min = Integer.MAX_VALUE;
@@ -43,9 +44,7 @@ class Solution {
                     res.clear();
                     min = gap;
                 }
-                List<Integer> temp = new ArrayList<>();
-                temp.add(arr[i]);
-                temp.add(arr[i+1]);
+                List<Integer> temp = new ArrayList<>(Arrays.asList(arr[i], arr[i + 1]));
                 res.add(temp);
             }
         }

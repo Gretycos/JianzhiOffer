@@ -55,10 +55,7 @@ class Solution {
                     r--;
                 // 和=0
                 } else {
-                    List<Integer> temp = new ArrayList<>();
-                    temp.add(nums[k]);
-                    temp.add(nums[l]);
-                    temp.add(nums[r]);
+                    List<Integer> temp = new ArrayList<>(Arrays.asList(nums[k],nums[l],nums[r]));
                     res.add(temp);
                     // 去重
                     while(l < r && nums[l] == nums[++l]);

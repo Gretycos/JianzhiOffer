@@ -56,15 +56,13 @@ class Solution {
         }
         arr[i] = pivot;
 
-        // 支点就是第k个元素，说明前k个元素都≤支点
-        if (k-1 == i) return;
 
         // 下标k在左半边
-        if (k-1 < i){
+        if (k < i){
             quickSort(arr,l,i-1,k);
         }
         // 下标k在右半边
-        else if (k-1 > i){
+        else if (k > i){
             quickSort(arr,i+1,r,k);
         }
     }
