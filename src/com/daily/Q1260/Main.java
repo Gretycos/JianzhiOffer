@@ -1,6 +1,7 @@
 package com.daily.Q1260;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -46,7 +47,7 @@ import java.util.List;
 class Solution {
     public List<List<Integer>> shiftGrid(int[][] grid, int k) {
         int m = grid.length, n = grid[0].length;
-        List<List<Integer>> res = new ArrayList<>();
+        List res = new ArrayList<>();
         int[][] map = new int[m][n];
         for (int i = 0; i < m; i++){
             for (int j = 0; j < n; j++){
@@ -54,13 +55,7 @@ class Solution {
                 map[pos / n][pos % n] = grid[i][j];
             }
         }
-        for(int i = 0; i < m; i++){
-            List<Integer> temp = new ArrayList<>();
-            for (int j = 0; j < n; j++){
-                temp.add(map[i][j]);
-            }
-            res.add(temp);
-        }
+        res = Arrays.asList(map);
         return res;
     }
 }
