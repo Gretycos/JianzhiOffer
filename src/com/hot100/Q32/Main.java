@@ -63,13 +63,14 @@ class Solution {
                 stack.addLast(i);
             }else{
                 if (stack.isEmpty()){
+                    // 标记无用的右括号
                     chars[i] = '1';
                 }else{
                     stack.removeLast();
                 }
             }
         }
-
+        // 标记剩余的左括号
         while(!stack.isEmpty()){
             chars[stack.removeLast()] = '1';
         }
