@@ -120,7 +120,6 @@ class Skiplist {
             if (currentNode.next[level] != null && currentNode.next[level].val == num){
                 currentNode.next[level] = currentNode.next[level].next[level];
                 flag = true;
-                continue;
             }
         }
         return flag;
