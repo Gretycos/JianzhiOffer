@@ -68,6 +68,8 @@ class CBTInserter {
             if (node.right != null){
                 queue.addLast(node.right);
             }
+            // 只有1个子节点或者没有子节点
+            // 加入parents候选
             if (node.left == null || node.right == null){
                 parents.addLast(node);
             }
@@ -77,12 +79,15 @@ class CBTInserter {
     public int insert(int val) {
         TreeNode child = new TreeNode(val);
         TreeNode parent = parents.getFirst();
+        // left为空说明没有子节点
         if (parent.left == null){
             parent.left = child;
-        }else{
+        }else{ // left不为空，说明有1个子节点
             parent.right = child;
+            // 填充满了要从候选中移除
             parents.removeFirst();
         }
+        // 新加入的节点没有子节点，需要加入候选
         parents.addLast(child);
         return parent.val;
     }
