@@ -1,4 +1,4 @@
-package lc.hot100;
+package lc.hot100.Q70;
 
 /**
  * 假设你正在爬楼梯。需要 n阶你才能到达楼顶。
