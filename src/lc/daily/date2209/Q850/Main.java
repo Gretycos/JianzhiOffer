@@ -97,6 +97,7 @@ class Solution {
     private static final int MOD = (int) 1e9+7;
     private static final int IN = 1, OUT = -1;
 
+    // T:O(nlogn)
     public int rectangleArea(int[][] rectangles) {
         // 按升序存储纵坐标并去重
         TreeSet<Integer> ySet = new TreeSet<>();
@@ -141,6 +142,74 @@ class Solution {
             // 线段数量=顶点数量-1，例如：left=0,right=2,则只有2个长度为1的线段，线段id区间是[0,1(right-1)]
             segmentTree.update(left,right-1,curEdge[3],idx2Y);
             res += (long) segmentTree.query() * (edges.get(i+1)[0] - curEdge[0]);
+        }
+
+        return (int) (res % MOD);
+    }
+
+    // T:O(n^2)
+    public int rectangleArea2(int[][] rectangles) {
+        int n = rectangles.length;
+        // 矩形的上下边界，相当于投影到y轴上
+        Set<Integer> set = new HashSet<>();
+        for (int[] rectangle : rectangles) {
+            set.add(rectangle[1]); // y1
+            set.add(rectangle[3]); // y2
+        }
+        List<Integer> bounds = new ArrayList<>(set);
+        bounds.sort((y1,y2) -> y1-y2);
+
+        // 覆盖情况
+        int segSize = bounds.size() - 1;
+        int[] segments = new int[segSize];
+
+        // 扫描线
+        // {x,id,IN/OUT}
+        List<int[]> sweepLines = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            // 入边
+            sweepLines.add(new int[]{rectangles[i][0],i,IN});
+            // 出边
+            sweepLines.add(new int[]{rectangles[i][2],i,OUT});
+        }
+        sweepLines.sort((e1,e2)->e1[0] != e2[0] ? e1[0]-e2[0] : e1[1] != e2[1] ? e1[1] - e2[1] : e1[2]-e2[2]);
+
+        long res = 0;
+        int sweepLinesSize = sweepLines.size();
+        for (int i = 0; i < sweepLinesSize; i++) {
+            int j = i;
+            // 查找最后一个相同点
+            while (j + 1 < sweepLinesSize && sweepLines.get(i)[0] == sweepLines.get(j+1)[0]){
+                j++;
+            }
+            if (j+1 == sweepLinesSize) break;
+
+            // 一次处理一批x相同的左右边界
+            for (int k = i; k <= j; k++){
+                int[] sweepLine = sweepLines.get(k);
+                // idx, IN/OUT
+                int idx = sweepLine[1], update = sweepLine[2];
+                // 用idx找到对应矩形的y1, y2
+                int y1 = rectangles[idx][1], y2 = rectangles[idx][3];
+                // 遍历segments
+                for(int segId = 0; segId < segSize; segId++){
+                    // 计算覆盖情况
+                    if (y1 <= bounds.get(segId) && bounds.get(segId+1) <= y2){
+                        segments[segId] += update;
+                    }
+                }
+            }
+
+            // 计算扫描线的覆盖长度
+            int coverLen = 0;
+            for (int segId = 0; segId < segSize; segId++){
+                // segments[segId] > 0表示覆盖到了
+                if (segments[segId] > 0){
+                    coverLen += (bounds.get(segId+1) - bounds.get(segId));
+                }
+            }
+            res += (long) coverLen * (sweepLines.get(j+1)[0] - sweepLines.get(j)[0]);
+            i = j;
         }
 
         return (int) (res % MOD);
