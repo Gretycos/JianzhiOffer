@@ -42,7 +42,8 @@ class Solution {
         points[0] = points[n+1] = 1;
         System.arraycopy(nums,0,points,1,n);
         // 把全程看作添加气球
-        // 定义dp：dp[i][j]为戳破(i,j)内的气球能够获得的最高分数
+        // 定义 dp：dp[i][j]为戳破(i,j)内的气球能够获得的最高分数
+        //      定义 k (i < k < j) 为区间内最后一个被戳爆的气球
         int[][] dp = new int[n+2][n+2];
 
         for (int i = n-1; i >= 0 ; i--) {
