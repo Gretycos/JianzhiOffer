@@ -29,6 +29,17 @@ package lc.hot100.Q76toQ100.Q416;
 
 class Solution {
     // 0-1背包
+    // 定义：
+    //      dp[i][j]：选出nums[0~i]中的一些数，使得和为j
+    // 状态转移：
+    //      不选nums[i]：dp[i][j] = dp[i-1][j]
+    //      选nums[i]：
+    //              if nums[i] == j, dp[i][j] = true
+    //              if nums[i] < j, dp[i][j] = dp[i-1][j-nums[i]]
+    // 初始化：
+    //      dp[0][0] = false
+    // 输出：
+    //      dp[n-1][avg]
     public boolean canPartition(int[] nums) {
         int n = nums.length;
         if (n < 2) return false;
@@ -37,15 +48,17 @@ class Solution {
             sum += num;
             maxNum = Math.max(maxNum, num);
         }
-        if (sum % 2 != 0) return false;
+        // sum是奇数，一定不能平分
+        if ((sum & 1) != 0) return false;
         int avg = sum / 2;
         if (maxNum > avg) return false;
 
         boolean[] dp = new boolean[avg+1];
         dp[0] = true;
         for (int i = 1; i < n; i++) {
+            // 因为参考的是上一行的左边的值，所以只能从右往左填表
             for (int j = avg; j >= nums[i]; j--) {
-                dp[j] |= dp[j-nums[i]];
+                dp[j] =  dp[j] || dp[j-nums[i]];
             }
         }
 

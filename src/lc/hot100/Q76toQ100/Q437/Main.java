@@ -63,36 +63,38 @@ class Solution {
 
     // 前缀和
     // Time: O(n)
-    private Map<Long, Integer> map;
+    private Map<Long, Integer> map; // key：前缀和，value: 出现前缀和的次数
+    private int count; // 满足条件的路径数
     public int pathSum2(TreeNode root, int targetSum) {
         map = new HashMap<>();
         // 当targetSum == curSum时，次数是1
         map.put(0L,1);
-        return dfs(root, 0, targetSum);
+        dfs(root, 0, targetSum);
+        return count;
     }
 
-    private int dfs(TreeNode node, long curSum, int targetSum){
+    private void dfs(TreeNode node, long curSum, int targetSum){
         if (node == null){
-            return 0;
+            return ;
         }
 
         // 当前和
         curSum += node.val;
 
         // 查询是否存在一个数preSum，使得curSum - preSum = targetSum
-        // 如果有，则加上它的次数
-        int count = map.getOrDefault(curSum - targetSum, 0);
+        // 如果有，则加上前缀和出现的次数，也就是满足的路径数
+        count += map.getOrDefault(curSum - targetSum, 0);
 
-        // 存储/更新当前前缀和
+        // 更新当前前缀和
         map.put(curSum,map.getOrDefault(curSum,0) + 1);
 
         // 左右子树的情况
-        count += dfs(node.left, curSum, targetSum);
-        count += dfs(node.right, curSum, targetSum);
+        dfs(node.left, curSum, targetSum);
+        dfs(node.right, curSum, targetSum);
 
         // 回溯
+        // 使得同一子树的状态不会在别的子树中出现
         map.put(curSum,map.getOrDefault(curSum,0) - 1);
-        return count;
     }
 }
 public class Main {

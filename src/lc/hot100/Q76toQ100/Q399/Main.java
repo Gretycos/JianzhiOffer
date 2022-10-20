@@ -69,7 +69,7 @@ class UnionFind{
         }
     }
 
-    void union(int x, int y, double val){
+    public void union(int x, int y, double val){
         int rootX = find(x);
         int rootY = find(y);
         if (rootX == rootY){
@@ -83,7 +83,7 @@ class UnionFind{
     /**
      * 查找 + 路径压缩
      * */
-    int find(int x){
+    private int find(int x){
         // x的父节点如果不是x，就继续寻找x的父节点的父节点，直到根节点
         if (f[x] != x){
             int parent = f[x];
