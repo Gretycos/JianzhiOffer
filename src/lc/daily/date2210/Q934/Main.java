@@ -65,20 +65,20 @@ class Solution {
         n = grid[0].length;
         queue = new ArrayDeque<>();
         for (int i = 0; i < m; i++) {
-            boolean foundIsland1 = false; // 找到1个岛屿
+            boolean foundIsland = false; // 找到1个岛屿
             for (int j = 0; j < n; j++) {
                 if (grid[i][j] == 1){
-                    foundIsland1 = true;
                     dfs(i,j);
+                    foundIsland = true;
                     break;
                 }
             }
-            if (foundIsland1){
+            if (foundIsland){
                 break;
             }
         }
         // bfs搜另一个岛屿
-        return bfs(queue);
+        return bfs();
     }
 
     private void dfs(int i, int j){
@@ -102,11 +102,11 @@ class Solution {
                 || (j - 1 >= 0 && grid[i][j-1] == 0);
     }
 
-    private int bfs(Deque<int[]> queue){
+    private int bfs(){
         int dist = 0;
+        // 层序遍历
         while(!queue.isEmpty()){
             int curSize = queue.size();
-            // 遍历每层
             for (int size = 0; size < curSize; size++){
                 int[] node = queue.removeFirst();
                 // 四个方向
