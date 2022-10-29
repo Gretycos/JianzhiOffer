@@ -2,7 +2,6 @@ package lc.daily.date2210.Q862;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * 给你一个整数数组 nums 和一个整数 k ，找出 nums 中和至少为 k 的 最短非空子数组 ，并返回该子数组的长度。
