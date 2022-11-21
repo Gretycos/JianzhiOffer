@@ -4,7 +4,7 @@ class Solution {
     private double[][] cache;
     public double soupServings(int n) {
         if (n > 4450) return 1.0;
-        n = (n + 24) / 25;
+        n = (n + 24) / 25; // 上取整
         cache = new double[n+1][n+1];
         return dfs(n, n);
     }
@@ -32,6 +32,6 @@ class Solution {
 public class Main {
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.soupServings(4451));
+        System.out.println(solution.soupServings(4450));
     }
 }
