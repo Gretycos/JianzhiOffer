@@ -5,7 +5,7 @@ import java.util.Set;
 
 class Solution {
     public int numDifferentIntegers(String word) {
-        Set<String> set = new HashSet<>();
+        Set<String> set = new HashSet<>(); // 去重
         for (int i = 0; i < word.length();) {
             char c = word.charAt(i);
             if (c >= '0' && c <= '9'){
