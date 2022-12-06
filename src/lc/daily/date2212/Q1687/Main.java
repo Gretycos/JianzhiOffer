@@ -19,8 +19,8 @@ class Solution {
             preSumCount[i] = preSumCount[i - 1] + count[i - 1];
         }
 
-        Deque<Integer> q = new LinkedList<>();
-        q.addLast(0); // 放入0号箱子
+        Deque<Integer> q = new LinkedList<>(); // 不理解
+        q.addLast(0); // 不理解
 
         int[] f = new int[n + 1];
         int[] g = new int[n + 1];
