@@ -35,7 +35,8 @@ class Solution {
             if (d > i * changes[i]){
                 res += changes[i];
                 d -= i * changes[i];
-            }else{
+            }else{ // d <= i * changes[i]
+                // 这里一定有 changes[i] >= d / i
                 res += (d + (i - 1)) / i; // 上取整(d/i)
                 break;
             }
