@@ -1,6 +1,5 @@
 package lc.labuladong.DataStructure.tree.Q341;
 
-import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +18,7 @@ interface NestedInteger {
 }
 
 class NestedIterator implements Iterator<Integer> {
-    private Deque<NestedInteger> list;
+    private List<NestedInteger> list;
 
     public NestedIterator(List<NestedInteger> nestedList) {
         // 不直接用 nestedList 的引用，是因为不能确定它的底层实现
@@ -29,16 +28,16 @@ class NestedIterator implements Iterator<Integer> {
 
     @Override
     public Integer next() {
-        return list.removeFirst().getInteger();
+        return list.remove(0).getInteger();
     }
 
     @Override
     public boolean hasNext() {
         // 检查头元素是否是整数，不是的话就移除掉，然后展开之后再插入list
-        while (!list.isEmpty() && !list.getFirst().isInteger()){
-            List<NestedInteger> first = list.removeFirst().getList();
+        while (!list.isEmpty() && !list.get(0).isInteger()){
+            List<NestedInteger> first = list.remove(0).getList();
             for (int i = first.size() - 1; i >= 0; i--) {
-                list.addFirst(first.get(i));
+                list.add(0, first.get(i));
             }
         }
         return !list.isEmpty();
