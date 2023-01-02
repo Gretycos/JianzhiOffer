@@ -27,15 +27,18 @@ class ExamRoom {
         int leftLen = seats.first(), rightLen = n - 1 - seats.last();
         while (seats.size() >= 2){
             int[] cur = pq.peek();
+            // 如果区间端点已经有人，但是中间没人
             if (seats.contains(cur[0])
                     && seats.contains(cur[1])
                     && seats.higher(cur[0]) == cur[1]){
+                // 距离左右两边有人的位置的距离
                 int curDist = (cur[1] - cur[0]) / 2;
                 // 最左或最右的位置更优
-                if (curDist < rightLen || curDist <= leftLen){
+                if (curDist < rightLen || curDist <= leftLen){ // 左右两边距离不用/2是因为只有一边有人
                     break;
                 }
                 pq.poll();
+                // 选择坐在区间中点
                 int mid = cur[0] + curDist;
                 pq.offer(new int[]{cur[0], mid});
                 pq.offer(new int[]{mid, cur[1]});
@@ -45,6 +48,7 @@ class ExamRoom {
                 pq.poll();
             }
         }
+        // 考虑两个端点的位置
         if (rightLen > leftLen){
             pq.offer(new int[]{seats.last(), n-1});
             seats.add(n-1);
@@ -59,6 +63,7 @@ class ExamRoom {
     public void leave(int p) {
         if (p != seats.first() && p != seats.last()){
             int pre = seats.lower(p), next = seats.higher(p);
+            // 弹出一个位置后，两个区间恢复成一个，加入到队列中
             pq.offer(new int[]{pre,next});
         }
         seats.remove(p);
