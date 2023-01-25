@@ -1,33 +1,20 @@
-package lc.labuladong.DataStructure.dp.Q300;
+package lc.labuladong.DynamicProgress.dp.Q354;
 
 import java.util.Arrays;
 
 class Solution {
-    // dp
-    public int lengthOfLIS(int[] nums) {
-        // 定义：dp[i] 表示以 nums[i] 这个数结尾的最长递增子序列的长度
-        int[] dp = new int[nums.length];
-        // base
-        // 刚开始的时候，算上自身的长度，所以初始值为1
-        Arrays.fill(dp,1);
-
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = 0; j < i; j++) {
-                if (nums[i] > nums[j]){
-                    dp[i] = Math.max(dp[i],dp[j] + 1);
-                }
-            }
+    public int maxEnvelopes(int[][] envelopes) {
+        int n = envelopes.length;
+        Arrays.sort(envelopes,(e1,e2) ->
+                e1[0] != e2[0]? e1[0] - e2[0] : e2[1] - e1[1]);
+        int[] height = new int[n];
+        for (int i = 0; i < n; i++) {
+            height[i] = envelopes[i][1];
         }
-
-        int res = 0;
-        for (int len : dp) {
-            res = Math.max(res, len);
-        }
-        return res;
+        return lengthOfLIS(height);
     }
 
-    // 二分 不好理解
-    public int lengthOfLIS2(int[] nums) {
+    private int lengthOfLIS(int[] nums){
         int[] top = new int[nums.length];
         // 牌堆数
         int piles = 0;
@@ -51,5 +38,6 @@ class Solution {
         return piles;
     }
 }
+
 public class Main {
 }

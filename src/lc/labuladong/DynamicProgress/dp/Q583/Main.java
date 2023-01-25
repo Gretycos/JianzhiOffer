@@ -1,4 +1,4 @@
-package lc.labuladong.DataStructure.dp.Q583;
+package lc.labuladong.DynamicProgress.dp.Q583;
 
 class Solution {
     public int minDistance(String word1, String word2) {

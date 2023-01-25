@@ -1,4 +1,4 @@
-package lc.labuladong.DataStructure.dp.Q509;
+package lc.labuladong.DynamicProgress.dp.Q509;
 
 class Solution {
     public int fib(int n) {

@@ -1,4 +1,4 @@
-package lc.labuladong.DataStructure.dp.Q53;
+package lc.labuladong.DynamicProgress.dp.Q53;
 
 class Solution {
     // 没有优化空间的dp

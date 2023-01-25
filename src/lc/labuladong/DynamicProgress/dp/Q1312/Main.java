@@ -1,4 +1,4 @@
-package lc.labuladong.DataStructure.dp.Q1312;
+package lc.labuladong.DynamicProgress.dp.Q1312;
 
 class Solution {
     public int minInsertions(String s) {

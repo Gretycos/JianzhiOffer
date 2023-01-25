@@ -1,4 +1,4 @@
-package lc.labuladong.DataStructure.dp.Q516;
+package lc.labuladong.DynamicProgress.dp.Q516;
 
 class Solution {
     public int longestPalindromeSubseq(String s) {

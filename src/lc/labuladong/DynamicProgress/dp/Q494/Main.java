@@ -1,4 +1,4 @@
-package lc.labuladong.DataStructure.dp.Q494;
+package lc.labuladong.DynamicProgress.dp.Q494;
 
 class Solution {
     public int findTargetSumWays(int[] nums, int target) {

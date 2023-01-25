@@ -1,4 +1,4 @@
-package lc.labuladong.DataStructure.dp.Q416;
+package lc.labuladong.DynamicProgress.dp.Q416;
 
 class Solution {
     public boolean canPartition(int[] nums) {

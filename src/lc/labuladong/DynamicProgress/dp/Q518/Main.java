@@ -1,4 +1,4 @@
-package lc.labuladong.DataStructure.dp.Q518;
+package lc.labuladong.DynamicProgress.dp.Q518;
 
 class Solution {
     public int change(int amount, int[] coins) {

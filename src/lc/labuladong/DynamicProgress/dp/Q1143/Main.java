@@ -1,4 +1,4 @@
-package lc.labuladong.DataStructure.dp.Q1143;
+package lc.labuladong.DynamicProgress.dp.Q1143;
 
 import java.util.Arrays;
 
