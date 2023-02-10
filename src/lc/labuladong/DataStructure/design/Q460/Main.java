@@ -28,14 +28,15 @@ class LFUCache {
 
     public void put(int key, int value) {
         if (cap <= 0) return;
-        // 没有key
+        // 有key
         if (keyToVal.containsKey(key)){
             keyToVal.put(key, value);
             increaseFreq(key);
             return;
         }
 
-        // 有key
+        // 没有key
+        // 容量满了
         if (cap <= keyToVal.size()){
             removeMinFreqKey();
         }
@@ -70,6 +71,7 @@ class LFUCache {
         LinkedHashSet<Integer> keys = freqToKeys.get(this.minFreq);
         int deletedKey = keys.iterator().next();
         keys.remove(deletedKey);
+        // 如果minFreq指向的keys列表为空，需要删除
         if (keys.isEmpty()){
             freqToKeys.remove(this.minFreq);
         }
