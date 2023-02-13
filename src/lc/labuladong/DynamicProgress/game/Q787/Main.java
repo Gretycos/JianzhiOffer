@@ -3,14 +3,13 @@ package lc.labuladong.DynamicProgress.game.Q787;
 import java.util.*;
 
 class Solution {
-    private int src, dst;
+    private int src;
     private int[][] memo;
     private Map<Integer, List<int[]>> inDegree;
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         // 把中转k站转化成经过k+1条边
         k = k + 1;
         this.src = src;
-        this.dst = dst;
         // k从1开始
         memo = new int[n][k+1];
         for (int[] row : memo) {
@@ -25,17 +24,17 @@ class Solution {
         return dp(dst, k);
     }
 
-    // 定义：从src出发，k步内到达dest的最小成本
-    private int dp(int dest, int k){
+    // 定义：从src出发，k步内到达dst的最小成本
+    private int dp(int dst, int k){
         // base case
-        if (dest == src){
+        if (dst == src){
             return 0;
         }
         if (k == 0) return -1;
-        if (memo[dest][k] != -666) return memo[dest][k];
+        if (memo[dst][k] != -666) return memo[dst][k];
 
         int res = Integer.MAX_VALUE;
-        List<int[]> inEdges = inDegree.get(dest);
+        List<int[]> inEdges = inDegree.get(dst);
         if (inEdges != null){
             for (int[] inEdge : inEdges) {
                 int from = inEdge[0], price = inEdge[1];
@@ -46,8 +45,8 @@ class Solution {
                 }
             }
         }
-        memo[dest][k] = res == Integer.MAX_VALUE ? -1 : res;
-        return memo[dest][k];
+        memo[dst][k] = res == Integer.MAX_VALUE ? -1 : res;
+        return memo[dst][k];
     }
 }
 
