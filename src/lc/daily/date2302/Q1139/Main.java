@@ -1,8 +1,4 @@
 package lc.daily.date2302.Q1139;
-
-import java.util.Arrays;
-
-
 class Solution {
     private static class State{
         int x, y;
