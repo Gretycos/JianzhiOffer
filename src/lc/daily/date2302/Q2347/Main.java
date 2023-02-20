@@ -1,7 +1,5 @@
 package lc.daily.date2302.Q2347;
 
-import java.util.List;
-
 class Solution {
     public String bestHand(int[] ranks, char[] suits) {
         int[] nums = new int[13];
