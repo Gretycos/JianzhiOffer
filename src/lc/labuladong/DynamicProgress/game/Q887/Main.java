@@ -62,4 +62,9 @@ class Solution {
 }
 
 public class Main {
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int k = 5, n = 100;
+        System.out.println(solution.superEggDrop(k,n));
+    }
 }
