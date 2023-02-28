@@ -1,6 +1,5 @@
 package lc.daily.date2302.Q2363;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
