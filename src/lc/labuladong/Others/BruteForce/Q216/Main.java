@@ -7,6 +7,7 @@ class Solution {
     private List<List<Integer>> res;
     private LinkedList<Integer> track;
     private int k, n;
+    private int trackSum;
 
     public List<List<Integer>> combinationSum3(int k, int n) {
         res = new LinkedList<>();
@@ -20,25 +21,27 @@ class Solution {
         }
         if (min > n) return res;
 
-        backtrack(1, 0);
+        backtrack(1);
         return res;
     }
 
-    private void backtrack(int start, int sum){
+    private void backtrack(int start){
         if (track.size() == k){
-            if (sum == n){
+            if (trackSum == n){
                 res.add(new LinkedList<>(track));
             }
             return;
         }
 
         for (int i = start; i <= 9; i++) {
-            if (sum + i > n){
+            if (trackSum + i > n){
                 continue;
             }
             track.addLast(i);
-            backtrack(i+1, sum + i);
+            trackSum += i;
+            backtrack(i+1);
             track.removeLast();
+            trackSum -= i;
         }
     }
 }
